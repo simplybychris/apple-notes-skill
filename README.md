@@ -1,46 +1,57 @@
 # Apple Notes Skill for Claude Code
 
-Folder-scoped Apple Notes integration for Claude Code on macOS. Full CRUD — create, read, update, delete, list notes — but only within a folder you explicitly choose.
+Folder-scoped Apple Notes integration for Claude Code on macOS.
 
-## Why folder-scoped?
-
-Most Apple Notes integrations give full access to all your notes. This one doesn't.
-
-**You pick a folder. Claude works only in that folder.** Can't read your other notes. Can't delete things outside the scope you set. Every script requires the folder name as the first argument — there's no default to accidentally fall through to.
+Create, read, update, delete and list notes, but only within a folder you explicitly choose. Claude can't access your other notes, can't browse everything, can't delete outside scope. Every script requires folder name as the first argument with no default.
 
 ## How it works
 
-1. Claude asks you which folder to use
-2. You pick one (e.g., "Work Notes")
-3. Claude can now create, read, edit, delete, and list notes — but only in that folder
-4. Want to switch? Just say so
+1. First time you use the skill, Claude asks which folder to use
+2. You pick a folder (e.g. "Work Notes")
+3. Claude works only in that folder from now on
+4. The folder stays set until you explicitly change it
 
-## Setup
+## Installation
 
-### 1. Copy to your project
-
-```bash
-# Project-local (recommended)
-cp -r .claude /path/to/your/project/.claude
-cp -r scripts /path/to/your/project/.claude/skills/apple-notes/scripts
-```
-
-Or user-wide:
-```bash
-cp -r .claude/skills/apple-notes ~/.claude/skills/
-```
-
-### 2. Make scripts executable
+**Project-local** (recommended):
 
 ```bash
-chmod +x scripts/*.sh
+git clone https://github.com/simplybychris/apple-notes-skill.git
+cp -r apple-notes-skill/.claude /path/to/your/project/.claude
+cp -r apple-notes-skill/scripts /path/to/your/project/.claude/skills/apple-notes/scripts
+chmod +x /path/to/your/project/.claude/skills/apple-notes/scripts/*.sh
 ```
 
-### 3. Grant permissions
+**User-wide** (available in all projects):
 
-First time you run a script, macOS will ask for permission:
+```bash
+git clone https://github.com/simplybychris/apple-notes-skill.git
+cp -r apple-notes-skill/.claude/skills/apple-notes ~/.claude/skills/
+cp -r apple-notes-skill/scripts ~/.claude/skills/apple-notes/scripts
+chmod +x ~/.claude/skills/apple-notes/scripts/*.sh
+```
 
-**System Settings > Privacy & Security > Automation > enable Notes** for your terminal app.
+### Permissions
+
+First run triggers a macOS permission dialog. Go to **System Settings > Privacy & Security > Automation** and enable **Notes** for your terminal app.
+
+## Usage Examples
+
+Just talk to Claude naturally:
+
+```
+"Dodaj notatkę z podsumowaniem dzisiejszego spotkania"
+"Zapisz ten scenariusz do Apple Notes"
+"Pokaż mi wszystkie notatki w tym folderze"
+"Edytuj notatkę 'Projekt X' i dodaj sekcję o budżecie"
+"Usuń notatkę 'Draft v1'"
+"Stwórz nowy folder 'Klienci'"
+"What notes do I have?"
+"Save this as a note called 'Meeting Summary'"
+"Update the note 'TODO' with the new task list"
+```
+
+Claude handles the script calls, HTML formatting and folder scoping automatically.
 
 ## Scripts
 
@@ -59,23 +70,23 @@ Every note operation takes `<folder>` as the first argument. No default. No shor
 
 ## Security
 
-- **Folder-scoped** — operates only where you say
-- **No default folder** — must be explicitly set by the user each session
-- **argv parameter passing** — immune to shell injection
-- **Pure AppleScript** — no network calls, no file system access
-- **User confirms deletes** — skill instructions require confirmation before deletion
+**Folder-scoped**: operates only in the folder you choose. No default folder, must be set by user. Once set, it stays until explicitly changed.
+
+**No injection**: all parameters passed via AppleScript `argv`, no shell interpolation.
+
+**Pure AppleScript**: no network calls, no file system access. Scripts only talk to Notes.app.
+
+**User confirms deletes**: skill instructions require confirmation before any deletion.
 
 ## Content format
 
-Apple Notes uses HTML. When creating or updating:
+Apple Notes uses HTML internally. Claude handles formatting automatically, but if you need manual control:
 
 ```html
 <div><h1>Heading</h1></div>
 <div><p>Paragraph with <b>bold</b> and <i>italic</i>.</p></div>
 <div><ul><li>Item 1</li><li>Item 2</li></ul></div>
 ```
-
-Line breaks: `<br>` or separate `<div>` tags.
 
 ## Requirements
 
