@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    {
+      "name": "apple-notes",
+      "description": "Folder-scoped Apple Notes integration for Claude Code. Create, read, update, delete notes — only within a folder you explicitly choose.",
+      "version": "0.2.0",
+      "source": "./apple-notes"
+    }
+  ]
+}

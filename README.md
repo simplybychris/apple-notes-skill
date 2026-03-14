@@ -4,21 +4,28 @@ Folder-scoped Apple Notes integration for Claude Code on macOS.
 
 Create, read, update, delete and list notes, but only within a folder you explicitly choose. Claude can't access your other notes, can't browse everything, can't delete outside scope.
 
-## Why folder-scoped?
-
-Most Apple Notes integrations give full access to all your notes. This one doesn't.
-
-You pick a folder. Claude works only in that folder. The folder name is saved to `config.json` so Claude remembers it between sessions without asking again.
-
 ## How it works
 
 1. First time: Claude asks which folder to use
 2. You pick one (e.g. "Work Notes")
-3. Claude saves the choice to `config.json`
-4. From now on, Claude works only in that folder, every session, without asking
-5. Want to change it? Tell Claude explicitly
+3. Claude saves the choice to `config.json` and remembers it between sessions
+4. From now on, Claude works only in that folder without asking again
+5. To change the folder, tell Claude explicitly
 
 ## Installation
+
+### Option 1: Plugin Marketplace (recommended)
+
+In Claude Code, run:
+
+```
+/plugin marketplace add simplybychris/apple-notes-skill
+/plugin install apple-notes@simplybychris-apple-notes-skill
+```
+
+Done. The skill is available in all your conversations.
+
+### Option 2: Manual copy
 
 Clone and copy to your project:
 
@@ -39,7 +46,7 @@ chmod +x ~/.claude/skills/apple-notes/scripts/*.sh
 
 ### Permissions
 
-First run triggers a macOS permission dialog. Go to System Settings > Privacy & Security > Automation and enable Notes for your terminal app.
+First run triggers a macOS dialog. Go to System Settings > Privacy & Security > Automation and enable Notes for your terminal app.
 
 ## Usage
 
@@ -87,7 +94,7 @@ Every note operation requires `<folder>` as the first argument. No default.
 
 ## Config persistence
 
-Folder choice is stored in `config.json` next to `SKILL.md`:
+Folder choice is stored in `config.json` in the plugin/skill directory:
 
 ```json
 {"folder":"Scenariusze","account":"iCloud"}

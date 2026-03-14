@@ -1,0 +1,9 @@
+{
+  "name": "apple-notes",
+  "description": "Folder-scoped Apple Notes integration. Full CRUD within a folder you choose.",
+  "version": "0.2.0",
+  "author": {"name": "Krzysztof Bohaczyk"},
+  "repository": "https://github.com/simplybychris/apple-notes-skill",
+  "license": "MIT",
+  "skills": "./skills/"
+}
